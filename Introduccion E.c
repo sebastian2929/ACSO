@@ -8,29 +8,39 @@ int main() {
         
         char oper;
         scanf("%c", &oper);
-        printf("%c\n", oper);
         float num1;
         scanf("%f", &num1);
-        printf("%f\n", num1);
         float num2;
         scanf("%f%*c", &num2);
-        printf("%f\n", num2);
-        float resultado;
+        int valido;
+        float resultado = 0;
         
         if(oper == '+'){
             resultado = num1 + num2;
+            valido = 1;
         }
         else if(oper == '-'){
             resultado = num1 - num2;
+            valido = 1;
         }
         else if(oper == '*'){
             resultado = num1 * num2;
+            valido = 1;
         }
         else if(oper == '/'){
             resultado = num1 / num2;
+            valido = 1;
+        }
+        else{
+            valido = 0;
+        }
+        if(valido == 1){
+            printf("%f\n", resultado);
+        }
+        if(valido == 0){
+            printf("Error\n");
         }
         veces--;
-        printf("%f\n", resultado);
     }
     return 0;
 }

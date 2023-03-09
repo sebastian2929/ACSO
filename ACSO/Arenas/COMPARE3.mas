@@ -1,0 +1,38 @@
+        Input
+        Store    a
+        Input
+        Store    b
+        Input
+        Store    c
+        Load     a
+        Subt     b
+        Skipcond 000
+        Jump     else1
+        Load     b
+        Jump     endif1
+else1,  Load     a
+endif1,  Store    M1
+        Load     a
+        Subt     c
+        Skipcond 000
+        Jump     else2
+        Load     c
+        Jump     endif2
+else2,  Load     a
+endif2, Store    M2
+        Load     M1
+        Subt     M2
+        Skipcond 000
+        Jump     else3
+        Load     M2
+        Jump     endif3
+else3,   Load     M1
+endif3,  Store    M3
+        Output
+        Halt
+a,      Dec      0
+b,      Dec      0
+c,      Dec      0
+M1,     Dec      0
+M2,     Dec      0
+M3,     Dec      0

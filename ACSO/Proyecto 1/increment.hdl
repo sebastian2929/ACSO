@@ -1,0 +1,57 @@
+CHIP increment{
+    IN a2[16],a1[16],a0[16];
+    OUT b2[16],b1[16],b0[16];
+
+    PARTS:
+
+	HalfAdder(a = a0[0],b = true,sum = b0[0],carry = var0);
+	HalfAdder(a = a0[1],b = var0,sum = b0[1],carry = var1);
+	HalfAdder(a = a0[2],b = var1,sum = b0[2],carry = var2);
+	HalfAdder(a = a0[3],b = var2,sum = b0[3],carry = var3);
+	HalfAdder(a = a0[4],b = var3,sum = b0[4],carry = var4);
+	HalfAdder(a = a0[5],b = var4,sum = b0[5],carry = var5);
+	HalfAdder(a = a0[6],b = var5,sum = b0[6],carry = var6);
+	HalfAdder(a = a0[7],b = var6,sum = b0[7],carry = var7);
+	HalfAdder(a = a0[8],b = var7,sum = b0[8],carry = var8);
+	HalfAdder(a = a0[9],b = var8,sum = b0[9],carry = var9);
+	HalfAdder(a = a0[10],b = var9,sum = b0[10],carry = var10);
+	HalfAdder(a = a0[11],b = var10,sum = b0[11],carry = var11);
+	HalfAdder(a = a0[12],b = var11,sum = b0[12],carry = var12);
+	HalfAdder(a = a0[13],b = var12,sum = b0[13],carry = var13);
+	HalfAdder(a = a0[14],b = var13,sum = b0[14],carry = var14);
+	HalfAdder(a = a0[15],b = var14,sum = b0[15],carry = var15);
+
+	HalfAdder(a = a1[0],b = var15,sum = b1[0],carry = var16);
+	HalfAdder(a = a1[1],b = var16,sum = b1[1],carry = var17);
+	HalfAdder(a = a1[2],b = var17,sum = b1[2],carry = var18);
+	HalfAdder(a = a1[3],b = var18,sum = b1[3],carry = var19);
+	HalfAdder(a = a1[4],b = var19,sum = b1[4],carry = var20);
+	HalfAdder(a = a1[5],b = var20,sum = b1[5],carry = var21);
+	HalfAdder(a = a1[6],b = var21,sum = b1[6],carry = var22);
+	HalfAdder(a = a1[7],b = var22,sum = b1[7],carry = var23);
+	HalfAdder(a = a1[8],b = var23,sum = b1[8],carry = var24);
+	HalfAdder(a = a1[9],b = var24,sum = b1[9],carry = var25);
+	HalfAdder(a = a1[10],b = var25,sum = b1[10],carry = var26);
+	HalfAdder(a = a1[11],b = var26,sum = b1[11],carry = var27);
+	HalfAdder(a = a1[12],b = var27,sum = b1[12],carry = var28);
+	HalfAdder(a = a1[13],b = var28,sum = b1[13],carry = var29);
+	HalfAdder(a = a1[14],b = var29,sum = b1[14],carry = var30);
+	HalfAdder(a = a1[15],b = var30,sum = b1[15],carry = var31);
+	
+	HalfAdder(a = a2[0],b = var31,sum = b2[0],carry = var32);
+	HalfAdder(a = a2[1],b = var32,sum = b2[1],carry = var33);
+	HalfAdder(a = a2[2],b = var33,sum = b2[2],carry = var34);
+	HalfAdder(a = a2[3],b = var34,sum = b2[3],carry = var35);
+	HalfAdder(a = a2[4],b = var35,sum = b2[4],carry = var36);
+	HalfAdder(a = a2[5],b = var36,sum = b2[5],carry = var37);
+	HalfAdder(a = a2[6],b = var37,sum = b2[6],carry = var38);
+	HalfAdder(a = a2[7],b = var38,sum = b2[7],carry = var39);
+	HalfAdder(a = a2[8],b = var39,sum = b2[8],carry = var40);
+	HalfAdder(a = a2[9],b = var40,sum = b2[9],carry = var41);
+	HalfAdder(a = a2[10],b = var41,sum = b2[10],carry = var42);
+	HalfAdder(a = a2[11],b = var42,sum = b2[11],carry = var43);
+	HalfAdder(a = a2[12],b = var43,sum = b2[12],carry = var44);
+	HalfAdder(a = a2[13],b = var44,sum = b2[13],carry = var45);
+	HalfAdder(a = a2[14],b = var45,sum = b2[14],carry = var46);
+	HalfAdder(a = a2[15],b = var46,sum = b2[15],carry = var47);
+}

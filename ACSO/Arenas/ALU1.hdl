@@ -1,0 +1,70 @@
+//C = nF1 nF0 (A0 B0 (B1 + A1) + A1 B1)
+
+//C1 = nF1 a1 B1 (a0 + b0) + nF1 A1 [b1 (a0 + B0) + A0 B1 B0] + nF1 f0 (B1 + A1) + nF0 a1 (A0 b1 B0 + f1) + F0 A1 B1
+
+//C2 = a0 (nF1 B0 + f1 nF0) + A0 (nF1 b0 + f0 B0)
+
+CHIP ALU1 {
+	IN f1, f0, A1, A0, B1, B0;
+	OUT C, C1, C0;
+	
+	PARTS:
+		Not(in = f1, out = nF1);
+		Not(in = f0, out = nF0);
+		Not(in = A1, out = a1);
+		Not(in = A0, out = a0);
+		Not(in = B1, out = b1);
+		Not(in = B0, out = b0);
+		
+		//C
+		Or(a = B1, b = A1, out = d1);
+		And(a = B0, b = d1, out = d2);
+		And(a = A0, b = d2, out = d3);
+		And(a = A1, b = B1, out = d4);
+		Or(a = d3, b = d4, out = d5);
+		And(a = nF0, b = d5, out = d6);
+	   
+		And(a = nF1, b = d6, out = C);
+	   
+		//C1
+		Or(a = a0, b = b0, out = g1);
+		And(a = B1, b = g1, out = g2);
+		And(a = a1, b = g2, out = g3);
+		And(a = nF1, b = g3, out = g4);
+	   
+		And(a = b1, b = g1, out = g5);
+		And(a = B1, b = B0, out = g6);
+		And(a = A0, b = g6, out = g7);
+		Or(a = g5, b = g7, out = g8);
+		And(a = A1, b = g8, out = g9);
+		And(a = nF1, b = g9, out = g10);
+	   
+		And(a = f0, b = d1, out = g11);
+		And(a = nF1, b = g11, out = g12);
+	   
+		And(a = b1, b = B0, out = g13);
+		And(a = A0, b = g13, out = g14);
+		Or(a = g14, b = f1, out = g15);
+		And(a = a1, b = g15, out = g16);
+		And(a = nF0, b = g16, out = g17);
+	   
+		And(a = f0, b = d4, out = g18);
+	   
+		Or(a = g4, b = g10, out = g19);
+		Or(a = g19, b = g12, out = g20);
+		Or(a = g20, b = g17, out = g21);
+		Or(a = g21, b = g18, out = C1);
+	   
+		//C0
+		And(a = nF1, b = B0, out = e1);
+		And(a = f1, b = nF0, out = e2);
+		Or(a = e1, b = e2, out = e3);
+		And(a = a0, b = e3, out = e4);
+	   
+		And(a = nF1, b = b0, out = e5);
+		And(a = f0, b = B0, out = e6);
+		Or(a = e5, b = e6, out = e7);
+		And(a = A0, b = e7, out = e8);
+	   
+		Or(a = e4, b = e8, out = C0);
+}

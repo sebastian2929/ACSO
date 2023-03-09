@@ -1,0 +1,54 @@
+         Input
+         Store    a
+         input
+         Store    b
+         input
+         Store    c
+         input    
+         Store    X
+         Load     X
+         Store    two
+loop,    Load     num
+         Add      X
+         Store    num
+         Load     two
+         Subt     one
+         Store    two
+         Skipcond 400
+         Jump     loop
+         Load     num
+         Store    part1
+loop1,   Load     num2
+         Add      part1
+         Store    num2
+         Load     a
+         subt     one
+         Store    a
+         Skipcond 400
+         Jump     loop1
+         Load     num2
+         Store    part2
+loop2,   Load     num3
+         Add      b
+         Store    num3
+         Load     X
+         Subt     one
+         Store    X        
+         Skipcond 400
+         Jump     loop2
+         Load     num3
+         Add      part2
+         Add      c       
+         Output
+         Halt
+X,       DEC      0
+a,       DEC      0
+b,       DEC      0
+c,       DEC      0
+two,     DEC      0
+one,     DEC      1
+num,     DEC      0
+num2,    DEC      0
+num3,    DEC      0
+part1,   DEC      0
+part2,   DEC      0

@@ -1,0 +1,65 @@
+
+// 	C = (A2 + B2)((A0B0)(A1 + B1) + (A1B1)) + A2B2
+//	S2 = (A2 ^ B2)(A0'(A1' + B1') + A1'(B1' + B0') + B1'B0') + (A2 ^ B2)'(A0B0(B1+A1)+A1B1)
+//	S1 = (A0B0) ^ (A1 ^ B1)
+//	S0 = A0 ^ B0
+
+CHIP sum3
+{
+	IN A2, A1, A0, B2, B1, B0;
+	OUT C, S2, S1, S0;
+PARTS:
+	//NEGACIONES
+	Not(in = A2, out = notA2);
+	Not(in = A1, out = notA1);
+	Not(in = A0, out = notA0);
+	Not(in = B2, out = notB2);
+	Not(in = B1, out = notB1);
+	Not(in = B0, out = notB0);
+	Not(in = xor2, out = notxor2);
+	
+	//OPERACIONES AND
+	And(a = A0, b = B0, out = A0AndB0);
+	And(a = A1, b = B1, out = A1AndB1);
+	And(a = A2, b = B2, out = A2AndB2);
+	And(a = A0, b = A1, out = A0AndA1);
+
+	//OPERACIONES OR
+	Or(a = A2, b = B2, out = or2);
+	Or(a = A1, b = B1, out = or1);
+	Or(a = notA1, b = notB1, out = notor1);
+	Or(a = notB1, b = notB0, out = notor10);
+	
+	//OPERACIONES XOR
+	Xor(a = A2, b = B2, out = xor2);
+	Xor(a = A1, b = B1, out = xor1);
+	
+	//C
+	And(a = A0AndB0, b = or1, out = A0AndB0Andor1);
+	Or(a = A0AndB0Andor1, b = A1AndB1, out = out);
+	And(a = or2, b = out, out = or2Andout);
+	Or(a = or2Andout, b = A2AndB2, out = C);
+	
+	//S2
+	And(a = notA0, b = notor1, out = notA0Andnotor1);
+	And(a = notA1, b = notor10, out = notA1Andnotor10);
+	Or(a = notA0Andnotor1, b = notA1Andnotor10, out = out2);
+	And(a = notB1, b = notB0, out = notB1AndnotB0);
+	Or(a = out2, b = notB1AndnotB0, out = out3);
+	And(a = xor2, b = out3, out = xor2Andout3);
+	Or(a = B1, b = A1, out = h);
+	And(a = A0AndB0, b = h, out = A0AndB0Andh);
+	Or(a = A0AndB0Andh, b = A1AndB1, out = g);
+	And(a = notxor2, b = g, out = notxor2Andg);
+	Or(a = xor2Andout3, b = notxor2Andg, out = S2);
+	
+	//S1	
+	Xor(a = A0AndB0, b = xor1, out = S1);
+	
+	//S0
+	Xor(a = A0, b = B0, out = S0);
+}
+
+
+
+

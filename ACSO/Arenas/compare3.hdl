@@ -1,0 +1,45 @@
+// S0 = (A0 + ~B0) (A1 + ~B1) (A2 + ~B2) (~A0 + B0) (~A1 + B1) (~A2 + B2)
+//			n1			n2		  n3		  n4		n5		    n6
+
+
+// S1 = A0 [B0' {B2' (B1' + A1) + A2 (B1' + A1)} ] + A1 (B1' (B2' + A2) ) + A2 B2'
+//
+
+CHIP compare3 {
+	IN A2, A1, A0, B2, B1, B0;
+	OUT S1, S0;
+	
+	PARTS:
+		Not(in = A2, out = a2);
+		Not(in = A1, out = a1);
+		Not(in = A0, out = a0);
+		Not(in = B2, out = b2);
+		Not(in = B1, out = b1);
+		Not(in = B0, out = b0);
+		
+		Or(a = A0, b = b0, out = n1);
+		Or(a = A1, b = b1, out = n2);
+		Or(a = A2, b = b2, out = n3);
+		Or(a = a0, b = B0, out = n4);
+		Or(a = a1, b = B1, out = n5);
+		Or(a = a2, b = B2, out = n6);
+		
+		//S0
+		And(a = n1, b = n2, out = m1);
+		And(a = m1, b = n3, out = m2);
+		And(a = m2, b = n4, out = m3);
+		And(a = m3, b = n5, out = m4);
+		And(a = m4, b = n6, out = S0);
+		
+		//S1
+		And(a = A2, b = n2, out = o1);
+		And(a = b2, b = n2, out = o2);
+		Or(a = o1, b =o2 , out = f1);
+		And(a = b0, b = f1, out = o3);
+		And(a = A0, b = o3, out = o4);
+		And(a = b1, b = n3, out = o5);
+		And(a = A1, b = o5, out = o6);
+		And(a = A2, b = b2, out = c6);
+		Or(a = o4, b = o6, out = a);
+		Or(a = a, b = c6, out = S1);
+}

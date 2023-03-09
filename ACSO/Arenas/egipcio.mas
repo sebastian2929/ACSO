@@ -1,0 +1,269 @@
+/ Autor: Yesid Mora
+/ Ejercicio: Suma Egipcia
+
+		Clear
+		Input
+		Store		N
+		Load			N
+for,		Skipcond	400
+		Jump		for_body
+		Jump		fin_for				
+for_body,	Load		N
+		Subt		ONE
+		Store		N
+		Input
+		Store		NN
+		Input
+		Store		ND
+				
+		Load		NN
+		Store		MCD_A
+		Load		ND
+		Store		MCD_B
+		JnS		mcd
+		Store		M
+				
+		Load		NN
+		Store		DIV_A
+		Load		M
+		Store		DIV_B
+		JnS		div
+		Store		NN
+				
+		Load		ND
+		Store		DIV_A
+		Load		M
+		Store		DIV_B
+		JnS		div
+		Store		ND				
+				
+		Load		NN
+		Store		EGY_A
+		Load		ND
+		Store		EGY_B
+		JnS		egy
+		Store		R
+		Load		R
+		Output
+		Load		ZERO
+		Output
+		Load		N
+		Jump		for
+fin_for,	Clear
+		Store		N
+		Store		NN
+		Store		ND
+		Store		R
+		Halt
+				
+ONE,		Dec		1
+N,		Dec		0
+NN,		Dec		0
+ND,		Dec		0
+R,		Dec		0
+ZERO,		Dec		0
+M,		Dec		0
+
+
+/ EGY
+egy,		Dec		0
+		Clear
+eg_while,	Load		EGY_B		/ D
+		Store		MOD_A
+		Load		EGY_A		/ N
+		Store		MOD_B
+		JnS		mod		/ N % D
+		Store		R_EG		/ R_EG = N % D
+		Load		R_EG
+		Skipcond	400		/ R_EG = 0?
+		Jump		eg_while_body	/ si no
+		Jump		eg_end_while	/ R_EG = 0
+eg_while_body,	Load		EGY_B
+		Store		DIV_A
+		Load		EGY_A
+		Store		DIV_B
+		JnS		div
+		Store		D_EGY
+
+		Load		D_EGY
+		Add		ONE
+		Store		D_EGY		/ D_EGY += 1
+		Load		D_EGY
+		Output
+			
+		Load		EGY_A
+		Store		MUL_A
+		Load		D_EGY
+		Store		MUL_B
+		JnS		mul	
+		Store		M_N		/ M_N = N * D_EGY
+				
+		Load		M_N
+		Subt		EGY_B
+		Store		M_N		/ M_N -= EGY_B
+				
+		Load		EGY_B
+		Store		MUL_A
+		Load		D_EGY
+		Store		MUL_B
+		JnS		mul
+		Store		M_D		/ M_D = D * D_EGY
+		
+		Load		M_D
+		Store		MCD_A
+		Load		M_N
+		Store		MCD_B
+		JnS		mcd
+		Store		DIV_E		/ DIV_E = M_D MCD M_N
+		
+		Load		M_N
+		Store		DIV_A
+		Load		DIV_E
+		Store		DIV_B
+		JnS		div
+		Store		EGY_A		/ EGY_A = M_N div (DIV_E)
+			
+		Load		M_D
+		Store		DIV_A
+		Load		DIV_E
+		Store		DIV_B
+		JnS		div
+		Store		EGY_B		/ EGY_B = M_D div (DIV_E)
+				
+		Jump		eg_while
+eg_end_while,	Load		EGY_B
+		JumpI		egy				
+EGY_A,		Dec		0
+EGY_B,		Dec		0
+R_EG,		Dec		0
+M_N,		Dec		0
+M_D,		Dec		0
+DIV_E,		Dec		0
+D_EGY,		Dec		0
+				
+
+
+/ funcion mcd(a,b)
+/	mcd = 1;
+/	y = y / 2
+
+mcd,		Dec		0
+		Clear
+		Load		MCD_A
+		Store		MOD_A
+		Load		MCD_B
+		Store		MOD_B
+		JnS		mod
+		Store		RES
+		Load		MCD_B
+		Store		NUM
+mcd_while,	Load		RES
+		Skipcond	400
+		Jump		mcd_while_body
+		Jump		mcd_end_while
+mcd_while_body,	Load		NUM
+		Store		MCD
+		Load		RES
+		Store		NUM
+		Load		MCD
+		Store		MOD_A
+		Load		NUM
+		Store		MOD_B
+		JnS		mod
+		Store		RES
+		Jump		mcd_while
+mcd_end_while,	Load		NUM
+		Store		MCD
+		Load		MCD
+		JumpI		mcd
+MCD_A,		Dec		0
+MCD_B,		Dec		0
+MCD,		Dec		0
+RES,		Dec		0
+NUM,		Dec		0
+
+
+/ funcion div(a, b)
+/ d = 0
+/ while (a >= b)
+/	a = a - b
+/	d = d + 1
+/ endwhile
+/ return d
+/
+div,		Dec		0
+		Clear
+		Store		DIV_D		/d = 0
+div_while,	Load		DIV_A
+		Subt		DIV_B
+		Skipcond	000
+		Jump		div_whilebody
+		Jump		div_endwhile
+div_whilebody,	Load		DIV_A
+		Subt		DIV_B
+		Store		DIV_A
+		Load		DIV_D
+		Add		ONE
+		Store		DIV_D
+		Jump		div_while
+div_endwhile,	Load		DIV_D
+		JumpI		div
+DIV_A,		Dec		0
+DIV_B,		Dec		0
+DIV_D,		Dec		0
+
+
+
+/ funcion mod(a, b)
+/ while (a >= b)
+/	a = a - b
+/ print a
+
+
+mod,		Dec		0
+mod_while,	Load		MOD_A
+		Subt		MOD_B
+		Skipcond	000
+		Jump		mod_whilebody
+		Jump		mod_endwhile
+mod_whilebody,	Load		MOD_A
+		Subt		MOD_B
+		Store		MOD_A
+		Jump		mod_while
+mod_endwhile,	Load		MOD_A
+		/Output
+		JumpI		mod
+MOD_A,		Dec		0
+MOD_B,		Dec		0
+
+
+/ funcion mul(a, b)
+/ i = 0
+/ m = 0
+/ while (i < b)
+/	m = m + a
+/	i = i + 1
+/ endwhile
+/ return m
+/
+mul,		Dec		0
+		Clear
+		Store		MUL_I		/ i = 0
+		Store		MUL_M		/ m = 0
+mul_while,	Load		MUL_I
+		Subt		MUL_B
+		Skipcond	000		/ i < b?
+		Jump		mul_endwhile
+		Load		MUL_M
+		Add		MUL_A
+		Store		MUL_M
+		Load		MUL_I
+		Add		ONE
+		Store		MUL_I
+		Jump		mul_while
+mul_endwhile,	Load		MUL_M
+		JumpI		mul
+MUL_A,		Dec		0
+MUL_B,		Dec		0
+MUL_I,		Dec		0
+MUL_M,		Dec		0

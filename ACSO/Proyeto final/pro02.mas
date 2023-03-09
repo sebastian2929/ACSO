@@ -1,0 +1,260 @@
+		Input
+		Store		LEN
+		Store		CI
+while_m,	Input
+		StoreI		V1
+		Input
+		StoreI		V2
+		Load		V1
+		Add		ONE
+		Store		V1
+		Load		V2
+		Add		ONE
+		Store		V2
+		Load		CI
+		Subt		ONE
+		Store		CI
+		Skipcond	400
+		Jump		while_m
+		JnS		max
+		Store		CANT		
+		Store		IT
+		JnS		vector
+		JnS		criba
+/calcular la cantidad por limites
+		Load		P1
+		Store		V1
+		Load		P2
+		Store		V2
+		Load		LEN
+		Store		CI
+while_l,	LoadI		V1
+		Store		LI
+		LoadI		V2
+		Store		LS	
+		JnS		num
+		Output
+		Load		V1
+		Add		ONE
+		Store		V1
+		Load		V2
+		Add		ONE
+		Store		V2
+		Load		CI
+		Subt		ONE
+		Store		CI
+		Skipcond	400
+		Jump		while_l
+		Halt
+P1,		Hex		0F0
+P2,		Hex		100
+V1,		Hex		0F0
+V2,		Hex		100
+LS,		Dec		0
+LI,		Dec		0
+CI,		Dec		0
+LEN,		Dec		0
+
+/Encontrar el maximo de un vector
+/max = 0
+/for i in range(leng(vector));
+/	if max < vector[i];
+/		max = vector[i]
+/print max
+
+max,		Dec		0
+		Load		ZERO
+		Store		M_max
+		Load		P2
+		Store		V2
+		Load		LEN
+		Store		CI
+for_m,		LoadI		V2
+		Subt		M_max
+		Skipcond	800
+		Jump		for_mbody
+		LoadI		V2
+		Store		M_max
+for_mbody,	Load		V2
+		Add		ONE
+		Store		V2
+		Load		CI
+		Subt		ONE
+		Store		CI
+		Skipcond	400
+		Jump		for_m
+		Load		M_max
+		JumpI		max
+M_max,		Dec		0	
+/crear un vector con b posiciones
+/for i in range(b);
+/	vector[i-1] = i
+vector,		Dec		0
+		Load		POS
+		Store		I
+		Load		TWO
+		Store		A
+for,		Load		A
+while_v,	Skipcond	800
+		Load		ZERO
+		StoreI		I
+		Load		A
+		Add		ONE
+		Store		A
+		Load		I
+		Add		ONE
+		Store		I
+		Load		PAR
+		Add		ONE
+		Store		PAR
+		Subt		TWO
+		Skipcond	400
+		Jump		continue
+		Store		PAR
+		Jump		while_v
+continue,	Load		CANT
+		Subt		A
+		Skipcond	000
+		Jump		for
+		JumpI		vector
+
+PAR,		Dec	0
+A,		Dec	2
+B,		Dec	10
+TWO,		Dec	2
+POS,		Hex	200
+CANT,		Dec	0
+ONE,		Dec	1
+I,		Hex	0
+ZERO,		Dec	0
+
+criba,		Dec		0
+		Load		POS
+		Add		ONE
+		Store		I
+		Add		IT
+		Subt		ONE
+		Store		IT
+ciclo,		LoadI		I
+		Store		MOD_B
+		Store		MUL_A
+		Store		MUL_B
+		Jns		mul
+		Subt		CANT
+		Skipcond	000
+		Jump		end_c
+		Load		MOD_B
+		Skipcond	400
+		JnS		loop	
+else_c,		Load		I
+		Add		ONE
+		Store		I
+		Load		IT
+		Subt		I
+		Skipcond	400
+		Jump		ciclo
+end_c,		JumpI		criba
+IT,		Dec		0
+/dado un numero verificar si es mod de toda la lista
+/loop(a,vector);
+/	i = pos(a) + 1
+/	for i in range(len(vector[i]))
+/		if mod(vector[i], a) = 0;
+/			vector[i] = 0
+
+loop,		Dec		0
+		Load		I
+		Add		ONE
+		Store		J
+		Load		POS
+		Add		CANT
+		Store		loop_i
+for_d,		LoadI		J
+		Store		MOD_A
+		JnS		mod
+		Skipcond	800
+		StoreI		J
+		Load		J
+		Add		ONE
+		Store		J
+		Subt		loop_i
+		Skipcond	400
+		Jump		for_d
+		JumpI		loop
+J,		Dec		0
+loop_i,		Dec		0
+THREE,		Dec		3
+
+mod,		Dec		0
+while,		Load		MOD_A
+		Subt		MOD_B
+		Add		ONE
+		Skipcond	800
+		Jump		endwhile
+		Load		MOD_A
+		Subt		MOD_B
+		Store		MOD_A
+		Jump		while	
+endwhile,	Load		MOD_A
+		JumpI		mod
+MOD_A,		Dec		0
+MOD_B,		Dec		0
+/Contar la cantidad de primos
+num,		Dec		0
+		Load		ZERO
+		Store		CANT_n
+		Load		POS
+		Add		LI
+		Subt		TWO
+		Store		I_num
+		Load		POS
+		Add		LS
+		Subt		ONE
+		Store		J_num
+for_n,		LoadI		I_num
+		Skipcond	800
+		Jump		else_n
+		Load		ONE
+		Add		CANT_n
+		Store		CANT_n
+else_n,		Load		I_num
+		Add		ONE
+		Store		I_num
+		Subt		J_num
+		Skipcond	400
+		Jump		for_n
+		Load		CANT_n
+		JumpI		num
+I_num,		Dec		0
+J_num,		Dec		0
+CANT_n,		Dec		0
+/funcion mult(a, b)
+/ i = 0
+/ m = 0
+/ while ( i < b)
+/	m = m + A
+/	i = i + 1
+/ endwhile
+/ return m
+
+mul,		Dec		0
+		Clear
+		Store		MUL_I
+		Store		MUL_M
+mul_while,	Load		MUL_I
+		Subt		MUL_B
+		Skipcond	000
+		Jump		mul_endwhile
+		Load		MUL_M
+		Add		MUL_A
+		Store		MUL_M
+		Load		MUL_I
+		Add		ONE
+		Store		MUL_I
+		Jump		mul_while
+mul_endwhile,	Load		MUL_M
+		JumpI		mul
+MUL_A,		Dec		0
+MUL_B,		Dec		0
+MUL_I,		Dec		0
+MUL_M,		Dec		0
